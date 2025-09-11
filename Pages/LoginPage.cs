@@ -15,8 +15,6 @@ namespace AdvantageShoppingTests.Pages
             _driver = driver;
             _wait = new WaitHelper(_driver);
         }
-
-        public String GetTitle() => _driver.Title;
         public RegisterPage ClickCreateNewAccount()
         {
             _wait.SafeClick(createNewAccountLink);

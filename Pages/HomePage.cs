@@ -15,9 +15,6 @@ namespace AdvantageShoppingTests.Pages
             _driver = driver;
             _wait = new WaitHelper(_driver);
         }
-
-        public String GetTitle() => _driver.Title;
-
         public LoginPage ClickUserIcon()
         {
             _wait.SafeClick(userIcon);

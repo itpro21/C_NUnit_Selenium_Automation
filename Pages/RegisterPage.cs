@@ -20,8 +20,6 @@ namespace AdvantageShoppingTests.Pages
             this.driver = driver;
             _wait = new WaitHelper(driver);
         }
-        public String GetTitle() => driver.Title;
-
         public void EnterUsername(string username) => driver.FindElement(usernameField).SendKeys(username);
         public void EnterEmail(string email) => driver.FindElement(emailField).SendKeys(email);
         public void EnterPassword(string password) => driver.FindElement(passwordField).SendKeys(password);

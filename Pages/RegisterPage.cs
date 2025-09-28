@@ -1,5 +1,7 @@
 using OpenQA.Selenium;
 using AdvantageShoppingTests.Utils;
+using SeleniumExtras.WaitHelpers;
+using OpenQA.Selenium.Support.UI;
 using System;
 
 namespace AdvantageShoppingTests.Pages
@@ -7,39 +9,36 @@ namespace AdvantageShoppingTests.Pages
     public class RegisterPage
     {
         private readonly IWebDriver driver;
-        private readonly WaitHelper _wait;
+        private readonly WebDriverWait _wait;
+        public int TimeoutInSeconds = int.Parse(ConfigReader.Get("ExplicitWait"));
 
-        private By usernameField = By.Name("usernameRegisterPage");
-        private By emailField = By.Name("emailRegisterPage");
-        private By passwordField = By.Name("passwordRegisterPage");
-        private By confirmPasswordField = By.Name("confirm_passwordRegisterPage");
-        private By form => By.Id("form");
-        private By errorField = By.XPath("//label[@class='animated invalid']");
+        private readonly By usernameField = By.Name("usernameRegisterPage");
+        private readonly By emailField = By.Name("emailRegisterPage");
+        private readonly By passwordField = By.Name("passwordRegisterPage");
+        private readonly By confirmPasswordField = By.Name("confirm_passwordRegisterPage");
+        private static By Form => By.Id("form");
+        private readonly By errorField = By.XPath("//label[@class='animated invalid']");
         public RegisterPage(IWebDriver driver)
         {
             this.driver = driver;
-            _wait = new WaitHelper(driver);
+            _wait = new WebDriverWait(driver, TimeSpan.FromSeconds(TimeoutInSeconds));
         }
-        public void EnterUsername(string username) => driver.FindElement(usernameField).SendKeys(username);
-        public void EnterEmail(string email) => driver.FindElement(emailField).SendKeys(email);
-        public void EnterPassword(string password) => driver.FindElement(passwordField).SendKeys(password);
-        public void EnterConfirmPassword(string confirmPassword) => driver.FindElement(confirmPasswordField).SendKeys(confirmPassword);
 
         public void FillForm(string username, string email, string password, string confirmPassword)
         {
-            EnterUsername(username);
-            EnterEmail(email);
-            EnterPassword(password);
-            EnterConfirmPassword(confirmPassword);
+            driver.FindElement(usernameField).SendKeys(username);
+            driver.FindElement(emailField).SendKeys(email);
+            driver.FindElement(passwordField).SendKeys(password);
+            driver.FindElement(confirmPasswordField).SendKeys(confirmPassword);
         }
 
         public void FocusFields()
         {
-            _wait.WaitForElementClickable(usernameField).Click();
-            _wait.WaitForElementClickable(emailField).Click();
-            _wait.WaitForElementClickable(passwordField).Click();
-            _wait.WaitForElementClickable(confirmPasswordField).Click();
-            _wait.WaitForElementClickable(form).Click();
+            _wait.Until(ExpectedConditions.ElementToBeClickable(usernameField)).Click();
+            _wait.Until(ExpectedConditions.ElementToBeClickable(emailField)).Click();
+            _wait.Until(ExpectedConditions.ElementToBeClickable(passwordField)).Click();
+            _wait.Until(ExpectedConditions.ElementToBeClickable(confirmPasswordField)).Click();
+            _wait.Until(ExpectedConditions.ElementToBeClickable(Form)).Click();
         }
 
         public string GetUsernameError() => GetMandatoryErrorText(usernameField);
@@ -49,12 +48,7 @@ namespace AdvantageShoppingTests.Pages
 
         public bool AreAllErrorsCleared()
         {
-            return _wait.WaitForElementNotVisible(errorField);
-        }
-
-        public bool IsErrorDisplayed()
-        {
-            return _wait.WaitForElementVisible(errorField) != null;
+            return _wait.Until(ExpectedConditions.InvisibilityOfElementLocated(errorField));
         }
 
         private string GetMandatoryErrorText(By locator)

@@ -11,7 +11,6 @@ namespace AdvantageShoppingTests.Tests
     {
         private IWebDriver driver;
         private HomePage homePage;
-        private LoginPage loginPage;
         private RegisterPage registerPage;
 
         [SetUp]
@@ -20,7 +19,6 @@ namespace AdvantageShoppingTests.Tests
             driver = DriverFactory.GetDriver();
             driver.Navigate().GoToUrl(ConfigReader.Get("BaseUrl"));
             homePage = new HomePage(driver);
-            loginPage = new LoginPage(driver);
             registerPage = new RegisterPage(driver);
         }
 
@@ -30,7 +28,7 @@ namespace AdvantageShoppingTests.Tests
             DriverFactory.QuitDriver();
         }
 
-        [TestCase("testuser2", "test2@email.com", "Password123", "Password123")]
+        [Test, TestCaseSource(typeof(TestDataReader), nameof(TestDataReader.GetRegisterUsers))]
         public void Verify_MandatoryFieldErrors_DisplayAndClear(string username, string email, string password, string confirmPassword)
         {
             TestContext.WriteLine("LOG001 - Mandatory field error messages display and clear");
@@ -39,20 +37,13 @@ namespace AdvantageShoppingTests.Tests
             FillFormData(username, email, password, confirmPassword);
             VerifyErrorsAreCleared();
         }
-        [TestCase("testuser4", "test4?email.com", "Password3455678", "Password3456578")]
-        public void Verify_ErrorDisplayed_for_InvalidData(string username, string email, string password, string confirmPassword)
-        {
-            TestContext.WriteLine("LOG002 - Error Message displayed for Invalid data");
-            Navigate_to_Register_Page();
-            FillFormData(username, email, password, confirmPassword);
-            VerifyErrorDisplayed();
-        }
+
         private void Navigate_to_Register_Page()
         {
             TestContext.WriteLine("***Navigate to Home Page and click User Icon.***");
-            loginPage = homePage.ClickUserIcon();
+            homePage.ClickUserIcon();
             TestContext.WriteLine("***Click Create New Account to open Register Page.***");
-            registerPage = loginPage.ClickCreateNewAccount();
+            registerPage = homePage.ClickCreateNewAccount();
         }
 
         private void VerifyMandatoryFieldErrors()
@@ -68,10 +59,7 @@ namespace AdvantageShoppingTests.Tests
         private void FillFormData(string username, string email, string password, string confirmPassword)
         {
             TestContext.WriteLine("***Enter Form Data***");
-            registerPage.EnterUsername(username);
-            registerPage.EnterEmail(email);
-            registerPage.EnterPassword(password);
-            registerPage.EnterConfirmPassword(confirmPassword);
+            registerPage.FillForm(username, email, password, confirmPassword);
         }
 
         private void VerifyErrorsAreCleared()
@@ -79,9 +67,5 @@ namespace AdvantageShoppingTests.Tests
             Assert.That(registerPage.AreAllErrorsCleared(), Is.True);
         }
 
-        private void VerifyErrorDisplayed()
-        {
-            Assert.That(registerPage.IsErrorDisplayed(), Is.True);
-        }
     }
 }

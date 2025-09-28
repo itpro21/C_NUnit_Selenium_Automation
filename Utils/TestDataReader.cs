@@ -3,19 +3,22 @@ using System.IO;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-public class TestDataReader
+namespace AdvantageShoppingTests.Utils
 {
-    private static string TestDataPath => Path.Combine(TestContext.CurrentContext.WorkDirectory, "TestData");
-
-    public static IEnumerable<TestCaseData> GetRegisterUsers()
+    public class TestDataReader
     {
-        var filePath = Path.Combine(TestDataPath, "TestData.json");
-        var json = File.ReadAllText(filePath);
-        var users = JsonConvert.DeserializeObject<List<dynamic>>(json);
+        private static string TestDataPath => Path.Combine(TestContext.CurrentContext.WorkDirectory, "TestData");
 
-        foreach (var u in users)
+        public static IEnumerable<TestCaseData> GetRegisterUsers()
         {
-            yield return new TestCaseData((string)u.username, (string)u.email, (string)u.password, (string)u.confirmPassword);
+            var filePath = Path.Combine(TestDataPath, "TestData.json");
+            var json = File.ReadAllText(filePath);
+            var users = JsonConvert.DeserializeObject<List<dynamic>>(json);
+
+            foreach (var u in users)
+            {
+                yield return new TestCaseData((string)u.username, (string)u.email, (string)u.password, (string)u.confirmPassword);
+            }
         }
     }
 }

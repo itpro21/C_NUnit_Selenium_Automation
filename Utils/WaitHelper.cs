@@ -30,5 +30,10 @@ namespace AdvantageShoppingTests.Utils
                 ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", element);
             }
         }
+
+        public void Pageloadwait()
+        {
+            _wait.Until(driver => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
+        }
     }
 }

@@ -3,6 +3,8 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using System;
 using AdvantageShoppingTests.Utils;
+using OpenQA.Selenium.Safari;
+using OpenQA.Selenium.Edge;
 
 namespace AdvantageShoppingTests.Driver
 {
@@ -29,6 +31,12 @@ namespace AdvantageShoppingTests.Driver
                     var options = new FirefoxOptions();
                     if (headless) options.AddArgument("--headless");
                     driver = new FirefoxDriver(options);
+                }
+                else if (browser.ToLower() == "edge")
+                {
+                    var options = new EdgeOptions();
+                    if (headless) options.AddArgument("--headless");
+                    driver = new EdgeDriver();
                 }
                 else
                 {

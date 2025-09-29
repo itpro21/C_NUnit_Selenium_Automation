@@ -8,7 +8,7 @@ namespace AdvantageShoppingTests.Pages
 {
     public class RegisterPage
     {
-        private readonly IWebDriver driver;
+        private readonly IWebDriver _driver;
         private readonly WebDriverWait _wait;
         public int TimeoutInSeconds = int.Parse(ConfigReader.Get("ExplicitWait"));
 
@@ -20,16 +20,16 @@ namespace AdvantageShoppingTests.Pages
         private readonly By errorField = By.XPath("//label[@class='animated invalid']");
         public RegisterPage(IWebDriver driver)
         {
-            this.driver = driver;
+            _driver = driver;
             _wait = new WebDriverWait(driver, TimeSpan.FromSeconds(TimeoutInSeconds));
         }
 
         public void FillForm(string username, string email, string password, string confirmPassword)
         {
-            driver.FindElement(usernameField).SendKeys(username);
-            driver.FindElement(emailField).SendKeys(email);
-            driver.FindElement(passwordField).SendKeys(password);
-            driver.FindElement(confirmPasswordField).SendKeys(confirmPassword);
+            _driver.FindElement(usernameField).SendKeys(username);
+            _driver.FindElement(emailField).SendKeys(email);
+            _driver.FindElement(passwordField).SendKeys(password);
+            _driver.FindElement(confirmPasswordField).SendKeys(confirmPassword);
         }
 
         public void FocusFields()
@@ -55,7 +55,7 @@ namespace AdvantageShoppingTests.Pages
         {
             try
             {
-                return driver.FindElement(locator).FindElement(By.XPath("following-sibling::label")).Text.Trim();
+                return _driver.FindElement(locator).FindElement(By.XPath("following-sibling::label")).Text.Trim();
             }
             catch (NoSuchElementException)
             {

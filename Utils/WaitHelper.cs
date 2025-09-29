@@ -33,7 +33,7 @@ namespace AdvantageShoppingTests.Utils
 
         public void Pageloadwait()
         {
-            _wait.Until(driver => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
+            _wait.Until(_driver => ((IJavaScriptExecutor)_driver).ExecuteScript("return document.readyState").Equals("complete"));
         }
     }
 }

@@ -15,8 +15,8 @@ namespace AdvantageShoppingTests.Tests
         private HomePage homePage;
         private RegisterPage registerPage;
 
-        protected static ExtentReports extent;
-        protected ExtentTest test;
+        private ExtentReports extent;
+        private ExtentTest test;
 
         // One Time Setup for TestReports
         [OneTimeSetUp]

@@ -37,14 +37,13 @@ namespace AdvantageShoppingTests.Tests
         {
             var outcome = TestContext.CurrentContext.Result.Outcome.Status;
             var stacktrace = TestContext.CurrentContext.Result.StackTrace;
+            var errorMsg = TestContext.CurrentContext.Result.Message;
 
             if (outcome == TestStatus.Failed)
             {
-                test.Fail("Test Failed");
-                if (!string.IsNullOrEmpty(stacktrace))
-                {
-                    test.Fail(stacktrace);
-                }
+                test.Log(Status.Fail, "Test Failed");
+                test.Log(Status.Fail, "Error Message: " + errorMsg);
+                test.Log(Status.Fail, "Stack Trace: " + stacktrace);
             }
             else if (outcome == TestStatus.Passed)
             {

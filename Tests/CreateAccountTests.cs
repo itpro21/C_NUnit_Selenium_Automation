@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using AdvantageShoppingTests.Utils;
+using System;
 
 namespace AdvantageShoppingTests.Tests
 {
@@ -33,10 +34,11 @@ namespace AdvantageShoppingTests.Tests
         {
             test.Info($"Step 3 - Click into and out of the Username, Email, Password and Confirm Password fields to check mandatory field validation");
             registerPage.FocusFields();
-            Assert.That(registerPage.GetUsernameError(), Is.EqualTo("Username field is required"));
-            Assert.That(registerPage.GetEmailError(), Is.EqualTo("Email field is required"));
-            Assert.That(registerPage.GetPasswordError(), Is.EqualTo("Password field is required"));
-            Assert.That(registerPage.GetConfirmPasswordError(), Is.EqualTo("Confirm password field is required"));
+            Assert.That(registerPage.GetUsernameError(), Is.EqualTo("Username field is required"), $"Username error message did not match");
+            Assert.That(registerPage.GetEmailError(), Is.EqualTo("Email field is required"), $"Email error message did not match");
+            Assert.That(registerPage.GetPasswordError(), Is.EqualTo("Password field is required"), $"Password error message did not match");
+            Assert.That(registerPage.GetConfirmPasswordError(), Is.EqualTo("Confirm password field is required"), $"Confirm Password error message did not match");
+
         }
 
         // Fill in the form data
@@ -49,7 +51,16 @@ namespace AdvantageShoppingTests.Tests
         // Verify all error messages are cleared
         private void VerifyErrorsAreCleared()
         {
-            Assert.That(registerPage.AreAllErrorsCleared(), Is.True);
+            try
+            {
+                Assert.That(registerPage.AreAllErrorsCleared(), Is.True, $"Not all error messages were cleared after entering valid data");
+            }
+            catch (Exception ex)
+            {
+                test.Fail("Not all error messages were cleared: " + ex.Message);
+                TestContext.WriteLine("Not all error messages were cleared: " + ex.Message);
+                throw;
+            }
         }
     }
 }

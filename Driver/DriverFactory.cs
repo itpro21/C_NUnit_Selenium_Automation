@@ -3,8 +3,8 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using System;
 using AdvantageShoppingTests.Utils;
-using OpenQA.Selenium.Safari;
 using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Remote;
 
 namespace AdvantageShoppingTests.Driver
 {
@@ -15,38 +15,49 @@ namespace AdvantageShoppingTests.Driver
 
         public static IWebDriver GetDriver()
         {
-            if (driver == null)
+            string gridUrl = ConfigReader.Get("GRID_URL") ?? "http://localhost:4444/wd/hub";
+            string browserConfig = ConfigReader.Get("Browser") ?? "chrome";
+            bool headless = bool.Parse(ConfigReader.Get("Headless") ?? "false");
+            string browser = browserConfig.ToLower();
+            if (browser == "chrome")
             {
-                string browser = ConfigReader.Get("Browser") ?? "chrome";
-                bool headless = bool.Parse(ConfigReader.Get("Headless") ?? "false");
-
-                if (browser.ToLower() == "chrome")
-                {
-                    var options = new ChromeOptions();
-                    if (headless) options.AddArgument("--headless=new");
-                    driver = new ChromeDriver(options);
-                }
-                else if (browser.ToLower() == "firefox")
-                {
-                    var options = new FirefoxOptions();
-                    if (headless) options.AddArgument("--headless");
-                    driver = new FirefoxDriver(options);
-                }
-                else if (browser.ToLower() == "edge")
-                {
-                    var options = new EdgeOptions();
-                    if (headless) options.AddArgument("--headless");
-                    driver = new EdgeDriver();
-                }
-                else
-                {
-                    throw new ArgumentException($"Unsupported browser: {browser}");
-                }
-
-                driver.Manage().Timeouts().ImplicitWait =
-                    TimeSpan.FromSeconds(Convert.ToInt32(ConfigReader.Get("ImplicitWait") ?? "5"));
-                driver.Manage().Window.Maximize();
+                var options = new ChromeOptions();
+                if (headless) options.AddArgument("--headless=new");
+                driver = new ChromeDriver(options);
             }
+            else if (browser == "firefox")
+            {
+                var options = new FirefoxOptions();
+                if (headless) options.AddArgument("--headless");
+                driver = new FirefoxDriver(options);
+            }
+            else if (browser == "edge")
+            {
+                var options = new EdgeOptions();
+                if (headless) options.AddArgument("--headless");
+                driver = new EdgeDriver();
+            }
+            else if (browser == "remotechrome")
+            {
+                driver = new RemoteWebDriver(new Uri(gridUrl), new ChromeOptions());
+            }
+            else if (browser == "remotefirefox")
+            {
+                driver = new RemoteWebDriver(new Uri(gridUrl), new FirefoxOptions());
+            }
+            else if (browser == "remoteedge")
+            {
+                driver = new RemoteWebDriver(new Uri(gridUrl), new EdgeOptions());
+            }
+            else
+            {
+                throw new ArgumentException($"Unsupported browser: {browser}");
+            }
+
+            driver.Manage().Timeouts().ImplicitWait =
+                    TimeSpan.FromSeconds(Convert.ToInt32(ConfigReader.Get("ImplicitWait") ?? "5"));
+            driver.Manage().Window.Maximize();
+
             return driver;
         }
 

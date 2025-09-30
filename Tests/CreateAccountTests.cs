@@ -24,6 +24,7 @@ namespace AdvantageShoppingTests.Tests
         private void Navigate_to_Register_Page()
         {
             test.Info($"Step 1 - Navigate to Home Page and click User Icon");
+            Assert.That(driver.Title.Trim, Is.EqualTo("Advantage Shopping"), $"Page Title did not match");
             homePage.ClickUserIcon();
             test.Info($"Step 2 - Click Create New Account to open Register Page");
             registerPage = homePage.ClickCreateNewAccount();

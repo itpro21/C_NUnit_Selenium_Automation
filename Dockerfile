@@ -7,6 +7,6 @@ RUN dotnet build -c Release
 # =============================
 # Test stage
 # =============================
-FROM build AS testrunner
+FROM build AS test
 WORKDIR /app
-CMD ["dotnet", "test", "AdvantageShoppingTests.csproj", "-c", "Release", "--logger:trx", "--results-directory", "/app/testresults"]
+CMD ["dotnet", "test", "AdvantageShoppingTests.csproj", "-c", "Release", "--filter", "Category=ParallelTests", "--logger:trx", "--results-directory", "/app/testresults"]

@@ -5,6 +5,7 @@ using AdvantageShoppingTests.Pages;
 using AdvantageShoppingTests.Utils;
 using AventStack.ExtentReports;
 using NUnit.Framework.Interfaces;
+using System;
 
 namespace AdvantageShoppingTests.Tests
 {
@@ -31,7 +32,9 @@ namespace AdvantageShoppingTests.Tests
             homePage = new HomePage(driver);
             registerPage = new RegisterPage(driver);
             test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
+            test.Info($"Running the Test in browser : " + ConfigReader.Get("Browser"));
         }
+
         [TearDown]
         public void TearDown()
         {
@@ -55,6 +58,7 @@ namespace AdvantageShoppingTests.Tests
             }
             DriverFactory.QuitDriver();
         }
+
         // One Time TearDown for TestReports
         [OneTimeTearDown]
         public void OneTimeTearDown()

@@ -5,14 +5,13 @@ using System;
 namespace AdvantageShoppingTests.Tests
 {
     [TestFixture]
-    [Parallelizable(ParallelScope.All)]
+    // [Parallelizable(ParallelScope.All)]
     public class CreateAccountTests : BaseTest
     {
         // Test to verify mandatory field error messages display and clear when valid data is entered
         [Test, TestCaseSource(typeof(TestDataReader), nameof(TestDataReader.GetRegisterUsers))]
         public void Verify_MandatoryFieldErrors_DisplayAndClear(string username, string email, string password, string confirmPassword)
         {
-            test.Info($"Running the Test in browser : " + ConfigReader.Get("Browser"));
             Navigate_to_Register_Page();
             VerifyMandatoryFieldErrors();
             FillFormData(username, email, password, confirmPassword);

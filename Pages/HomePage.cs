@@ -1,6 +1,5 @@
 using OpenQA.Selenium;
 using AdvantageShoppingTests.Utils;
-using System;
 
 namespace AdvantageShoppingTests.Pages
 {

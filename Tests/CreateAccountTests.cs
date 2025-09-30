@@ -1,10 +1,5 @@
-using OpenQA.Selenium;
 using NUnit.Framework;
-using AdvantageShoppingTests.Driver;
-using AdvantageShoppingTests.Pages;
 using AdvantageShoppingTests.Utils;
-using AventStack.ExtentReports;
-using NUnit.Framework.Interfaces;
 
 namespace AdvantageShoppingTests.Tests
 {
@@ -12,6 +7,7 @@ namespace AdvantageShoppingTests.Tests
     [Parallelizable(ParallelScope.All)]
     public class CreateAccountTests : BaseTest
     {
+        // Test to verify mandatory field error messages display and clear when valid data is entered
         [Test, TestCaseSource(typeof(TestDataReader), nameof(TestDataReader.GetRegisterUsers))]
         public void Verify_MandatoryFieldErrors_DisplayAndClear(string username, string email, string password, string confirmPassword)
         {

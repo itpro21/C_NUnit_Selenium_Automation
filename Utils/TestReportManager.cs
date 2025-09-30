@@ -2,6 +2,7 @@ using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
 using AventStack.ExtentReports.Reporter.Config;
 using NUnit.Framework;
+using System;
 using System.IO;
 
 namespace AdvantageShoppingTests.Utils
@@ -13,7 +14,8 @@ namespace AdvantageShoppingTests.Utils
         {
             if (extent == null)
             {
-                string ReportPath = Path.Combine(TestContext.CurrentContext.WorkDirectory, "TestReports", "ExtentReport.html");
+                string projectRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
+                string ReportPath = Path.Combine(projectRoot, "Reports", "ExtentReport.html");
                 var sparkReporter = new ExtentSparkReporter(ReportPath);
 
                 sparkReporter.Config.DocumentTitle = "Automation Test Report";

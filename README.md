@@ -13,6 +13,7 @@ This project contains automated UI tests for [Advantage Online Shopping](https:/
 
 ## 📂 Project Structure
 
+```
 AdvantageShoppingTests/
 │
 ├── Driver/                # Browser Driver
@@ -37,7 +38,7 @@ AdvantageShoppingTests/
 └── appsettings.json
 └── Dockerfile
 └── docker-compose.yml
-
+ ```
 ---
 
 ## ⚙️ Setup

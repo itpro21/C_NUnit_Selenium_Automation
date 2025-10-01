@@ -13,25 +13,30 @@ This project contains automated UI tests for [Advantage Online Shopping](https:/
 
 ## 📂 Project Structure
 
-```
 AdvantageShoppingTests/
 │
+├── Driver/                # Browser Driver
+│   ├── DriverFactory.cs
 ├── Pages/                # Page Object classes
 │   ├── HomePage.cs
-│   ├── LoginPage.cs
 │   └── RegisterPage.cs
+├── TestData/                # Testdata
+│   ├── TestData.json
 │
 ├── Tests/                # NUnit test classes
 │   └── CreateAccountTests.cs
+│   └── BaseTest.cs
 │
 ├── Utils/                # Helpers
-│   ├── DriverFactory.cs
+│   ├── TestDataReader.cs
 │   └── WaitHelper.cs
 │   └── ConfigReader.cs
+│   ├── TestReportManager.cs
 │
 └── AdvantageShoppingTests.csproj
 └── appsettings.json
-```
+└── Dockerfile
+└── docker-compose.yml
 
 ---
 
